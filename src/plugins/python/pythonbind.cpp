@@ -4367,7 +4367,7 @@ static PyObject* _wrap_PyTiledCell__get_tile(PyTiledCell *self, void * PYBINDGEN
         return Py_None;
     }
     py_Tile = PyObject_New(PyTiledTile, &PyTiledTile_Type);
-    py_Tile->obj = self->obj->tile;
+    py_Tile->obj = new Tiled::Tile(*self->obj->tile);
     py_Tile->flags = PYBINDGEN_WRAPPER_FLAG_NONE;
     py_retval = Py_BuildValue((char *) "N", py_Tile);
     return py_retval;
