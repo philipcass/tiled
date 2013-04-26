@@ -41,7 +41,16 @@ qtbinding.generate(mod)
 
 tiled = mod.add_cpp_namespace('Tiled')
 
-cls_tile = tiled.add_class('Tile')
+cls_props = tiled.add_class('Properties')
+cls_props.add_method('keys', 'QList<QString>', [])
+#cls_propsc = tiled.add_container('QMap<QString,QString>', ('QString','QString'), 'map', cls_props)
+
+cls_object = tiled.add_class('Object')
+cls_object.add_method('property', 'QString', [('QString','prop')])
+cls_object.add_method('setProperty', None,
+  [('QString','prop'),('QString','val')])
+
+cls_tile = tiled.add_class('Tile', cls_object)
 cls_tile.add_method('id', 'int', [])
 cls_tile.add_method('image', retval('const QPixmap&'), [])
 cls_tile.add_method('setImage', None, [('const QPixmap&','image')])
@@ -81,10 +90,6 @@ cls_tile.add_method('tileset',
 cls_layer = tiled.add_class('Layer')
 
 #mod.add_container('QList<Tileset>', retval('Tileset'), 'list')
-
-cls_props = tiled.add_class('Properties')
-cls_props.add_method('keys', 'QList<QString>', [])
-#cls_propsc = tiled.add_container('QMap<QString,QString>', ('QString','QString'), 'map', cls_props)
 
 cls_map = tiled.add_class('Map')
 cls_map.add_enum('Orientation', ('Unknown','Orthogonal','Isometric'))
@@ -144,11 +149,6 @@ cls_imagelayer.add_method('loadFromImage', 'bool',
   [('const QImage&','img'),('QString','file')])
 cls_imagelayer.add_method('image', retval('const QPixmap&'), [])
 cls_imagelayer.add_method('setImage', None, [('const QPixmap&','image')])
-
-cls_object = tiled.add_class('Object')
-cls_object.add_method('property', 'QString', [('QString','prop')])
-cls_object.add_method('setProperty', None,
-  [('QString','prop'),('QString','val')])
 
 cls_mapobject = tiled.add_class('MapObject', cls_object)
 cls_mapobject.add_constructor([])

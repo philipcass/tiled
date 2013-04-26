@@ -2681,6 +2681,25 @@ _wrap_PyTiledTile_id(PyTiledTile *self)
     return py_retval;
 }
 
+
+PyObject *
+_wrap_PyTiledTile_property(PyTiledTile *self, PyObject *args, PyObject *kwargs)
+{
+    PyObject *py_retval;
+    QString retval;
+    const char *name;
+    Py_ssize_t name_len;
+    const char *keywords[] = {"name", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, (char *) "s#", (char **) keywords, &name, &name_len)) {
+        return NULL;
+    }
+    retval = self->obj->property(QString::fromUtf8(name));
+    py_retval = Py_BuildValue((char *) "s", retval.toUtf8().data());
+    return py_retval;
+}
+
+
 static PyMethodDef PyTiledTile_methods[] = {
     {(char *) "tileset", (PyCFunction) _wrap_PyTiledTile_tileset, METH_NOARGS, NULL },
     {(char *) "setImage", (PyCFunction) _wrap_PyTiledTile_setImage, METH_KEYWORDS|METH_VARARGS, NULL },
@@ -2688,6 +2707,7 @@ static PyMethodDef PyTiledTile_methods[] = {
     {(char *) "height", (PyCFunction) _wrap_PyTiledTile_height, METH_NOARGS, NULL },
     {(char *) "width", (PyCFunction) _wrap_PyTiledTile_width, METH_NOARGS, NULL },
     {(char *) "id", (PyCFunction) _wrap_PyTiledTile_id, METH_NOARGS, NULL },
+    {(char *) "property", (PyCFunction) _wrap_PyTiledTile_property, METH_KEYWORDS|METH_VARARGS, NULL },
     {NULL, NULL, 0, NULL}
 };
 
